@@ -12,6 +12,7 @@ public class MessageService {
     private Map<Long, Message> messages = MockDao.getMessages();
 
     public MessageService() {
+        //Mock
         messages.put(1L, new Message(1, "Hello world!", "Dmitry"));
         messages.put(2L, new Message(2, "TestMessage", "TestName"));
     }
