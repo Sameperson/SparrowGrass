@@ -1,5 +1,6 @@
 package com.sameperson;
 
+import com.sameperson.beans.MessageFilterBean;
 import com.sameperson.model.Message;
 import com.sameperson.service.MessageService;
 
@@ -15,14 +16,12 @@ public class MessageResource {
     private MessageService messageService = new MessageService();
 
     @GET
-    public List<Message> getMessages(@QueryParam("year") int year,
-                                     @DefaultValue("-1") @QueryParam("start") int start,
-                                     @DefaultValue("-1") @QueryParam("size") int size) {
-        if (year > 0) {
-            return messageService.getAllMessagesForTheYear(year);
+    public List<Message> getMessages(@BeanParam MessageFilterBean messageFilterBean) {
+        if (messageFilterBean.getYear() > 0) {
+            return messageService.getAllMessagesForTheYear(messageFilterBean.getYear());
         }
-        if (start >= 0 && size >= 0) {
-            return messageService.getAllMessagesPaginated(start, size);
+        if (messageFilterBean.getStart() >= 0 && messageFilterBean.getSize() >= 0) {
+            return messageService.getAllMessagesPaginated(messageFilterBean.getStart(), messageFilterBean.getSize());
         }
         return messageService.getAllMessages();
     }
