@@ -1,4 +1,4 @@
-package com.sameperson;
+package com.sameperson.resources;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;

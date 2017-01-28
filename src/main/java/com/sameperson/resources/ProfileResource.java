@@ -1,4 +1,4 @@
-package com.sameperson;
+package com.sameperson.resources;
 
 import com.sameperson.model.Profile;
 import com.sameperson.service.ProfileService;

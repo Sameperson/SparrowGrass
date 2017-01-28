@@ -1,4 +1,4 @@
-package com.sameperson;
+package com.sameperson.resources;
 
 import com.sameperson.beans.MessageFilterBean;
 import com.sameperson.model.Message;
@@ -50,4 +50,9 @@ public class MessageResource {
         messageService.removeMessage(messageId);
     }
 
+    @Path("/{messageId}/comments")
+    public CommentResource getCommentResource() {
+        CommentResource commentResource = new CommentResource();
+        return commentResource;
+    }
 }
