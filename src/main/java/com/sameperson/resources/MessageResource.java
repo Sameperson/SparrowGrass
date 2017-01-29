@@ -5,7 +5,12 @@ import com.sameperson.model.Message;
 import com.sameperson.service.MessageService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("messages")
@@ -33,8 +38,13 @@ public class MessageResource {
     }
 
     @POST
-    public Message addMessage(Message message) {
-        return messageService.addMessage(message);
+    public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+        String newId = String.valueOf(message.getId());
+        Message newMessage = messageService.addMessage(message);
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+        return Response.created(uri)
+                .entity(newMessage)
+                .build();
     }
 
     @PUT
