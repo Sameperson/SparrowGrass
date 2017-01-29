@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("messages")
@@ -38,7 +37,7 @@ public class MessageResource {
     }
 
     @POST
-    public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+    public Response addMessage(Message message, @Context UriInfo uriInfo) {
         String newId = String.valueOf(message.getId());
         Message newMessage = messageService.addMessage(message);
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();

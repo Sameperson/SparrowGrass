@@ -1,6 +1,7 @@
 package com.sameperson.service;
 
 import com.sameperson.dao.MockDao;
+import com.sameperson.exception.DataNotFoundException;
 import com.sameperson.model.Message;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MessageService {
         Calendar cal = Calendar.getInstance();
         for (Message message : messages.values()) {
             cal.setTime(message.getCreated());
-            if(cal.get(Calendar.YEAR) == year) {
+            if (cal.get(Calendar.YEAR) == year) {
                 messagesForYear.add(message);
             }
         }
@@ -43,7 +44,11 @@ public class MessageService {
     }
 
     public Message getMessage(long id) {
-        return messages.get(id);
+        Message message = messages.get(id);
+        if (message == null) {
+            throw new DataNotFoundException("Message with id " + id + " not found" );
+        }
+        return message;
     }
 
     public Message addMessage(Message message) {
@@ -53,7 +58,7 @@ public class MessageService {
     }
 
     public Message updateMessage(Message message) {
-        if(message.getId() <= 0) {
+        if (message.getId() <= 0) {
             return null;
         }
         messages.put(message.getId(), message);
