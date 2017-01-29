@@ -1,20 +1,48 @@
 package com.sameperson.resources;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import com.sameperson.model.Comment;
+import com.sameperson.service.CommentService;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 
 public class CommentResource {
 
+    private CommentService commentService = new CommentService();
+
     @GET
-    public String test() {
-        return "new subresource";
+    public List<Comment> getAllComments(@PathParam("messageId") long messageId) {
+        return commentService.getAllComments(messageId);
     }
+
+    @POST
+    public Comment addComment(@PathParam("messageId") long messageId, Comment comment) {
+        return commentService.addComment(messageId, comment);
+    }
+
+    @PUT
+    @Path("/{commentId}")
+    public Comment updateComment(@PathParam("messageId") long messageId, @PathParam("commentId") long id, Comment comment) {
+        comment.setId(id);
+        return commentService.updateComment(messageId, comment);
+    }
+
+    @DELETE
+    @Path("/{commentId}")
+    public void deleteComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+        commentService.removeComment(messageId, commentId);
+    }
+
 
     @GET
     @Path("/{commentId}")
-    public String test2(@PathParam("commentId") long commentId) {
-        return "mtd: " + commentId;
+    public Comment getMessage(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+        return commentService.getComment(messageId, commentId);
     }
 
 }
