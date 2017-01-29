@@ -2,8 +2,12 @@ package com.sameperson.service;
 
 import com.sameperson.dao.MockDao;
 import com.sameperson.model.Comment;
+import com.sameperson.model.ErrorMessage;
 import com.sameperson.model.Message;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +21,22 @@ public class CommentService {
         return new ArrayList<Comment>(comments.values());
     }
 
+
     public Comment getComment(long messageId, long commentId) {
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
-        return comments.get(commentId);
+        ErrorMessage errorMessage = new ErrorMessage("Not found", 404, "null");
+        Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(errorMessage)
+                .build();
+        Message message = messages.get(messageId);
+        if(message == null) {
+            throw new WebApplicationException(response);
+        }
+        Map<Long, Comment> comments = message.getComments();
+        Comment comment = comments.get(commentId);
+        if(comment == null) {
+            throw new NotFoundException(response);
+        }
+        return comment;
     }
 
     public Comment addComment(long messageId, Comment comment) {

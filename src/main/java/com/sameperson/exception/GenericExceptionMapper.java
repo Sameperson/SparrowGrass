@@ -6,7 +6,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-@Provider
+//commented out to disable Jersey register of the mapper
+//@Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override

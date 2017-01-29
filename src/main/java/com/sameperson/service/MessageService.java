@@ -15,7 +15,7 @@ public class MessageService {
 
     public MessageService() {
         //Mock
-        messages.put(1L, new Message(1, "Hello world!", "Dmitry"));
+        messages.put(1L, new Message(1, "Hello world!", "dmitry"));
         messages.put(2L, new Message(2, "TestMessage", "TestName"));
     }
 
